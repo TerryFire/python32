@@ -443,31 +443,31 @@ def s():
 # print(toNewPrice(priceUSD))
 
 
-def deco(func):
-    print("Dec going")
+# def deco(func):
+#     print("Dec going")
+#
+#     def wrapper(self):
+#         print("General information: ")
+#         func(self)
+#
+#     return wrapper
+#
+#
+# class Book:
+#
+#     def __init__(self, title, author, pages):
+#         self.pages = pages
+#         self.author = author
+#         self.title = title
+#
+#     @deco
+#     def show_info(self):
+#         print(f"Title: {self.title}")
+#         print(f"Author: {self.author}")
+#         print(f"Pages: {self.pages}")
 
-    def wrapper(self):
-        print("General information: ")
-        func(self)
 
-    return wrapper
-
-
-class Book:
-
-    def __init__(self, title, author, pages):
-        self.pages = pages
-        self.author = author
-        self.title = title
-
-    @deco
-    def show_info(self):
-        print(f"Title: {self.title}")
-        print(f"Author: {self.author}")
-        print(f"Pages: {self.pages}")
-
-
-b1 = Book("Book", "Me", 420)
+# b1 = Book("Book", "Me", 420)
 
 
 # b1.show_info()
@@ -528,17 +528,18 @@ class Date:
         new_day = new_days
         return Date(new_day, new_month, self.__year + new_year)
 
-date1 = Date(25, 8, 2023)
-date2 = Date(15, 8, 2023)
 
-print("Date 1:", date1)
-print("Date 2:", date2)
-
-difference = date1 - date2
-print("Difference in days:", difference)
-
-new_date = date1 + 10
-print("New date:", new_date)
+# date1 = Date(25, 8, 2023)
+# date2 = Date(15, 8, 2023)
+#
+# print("Date 1:", date1)
+# print("Date 2:", date2)
+#
+# difference = date1 - date2
+# print("Difference in days:", difference)
+#
+# new_date = date1 + 10
+# print("New date:", new_date)
 
 
 # Создайте класс Дробь (или используйте уже ранее
@@ -578,17 +579,206 @@ class Fraction:
         return Fraction(new_numerator, new_denominator)
 
 
-fraction1 = Fraction(1, 2)
-fraction2 = Fraction(3, 4)
+#
+# fraction1 = Fraction(1, 2)
+# fraction2 = Fraction(3, 4)
+#
+# result_add = fraction1 + fraction2
+# print("Addition:", result_add)
+#
+# result_sub = fraction1 - fraction2
+# print("Subtraction:", result_sub)
+#
+# result_mul = fraction1 * fraction2
+# print("Multiplication:", result_mul)
+#
+# result_div = fraction1 / fraction2
+# print("Division:", result_div)
 
-result_add = fraction1 + fraction2
-print("Addition:", result_add)
+# property, descriptor, metaclass, duck typing
 
-result_sub = fraction1 - fraction2
-print("Subtraction:", result_sub)
 
-result_mul = fraction1 * fraction2
-print("Multiplication:", result_mul)
+class Product:
+    def __init__(self, name, price):
+        self.__name = name
+        self.__price = price
 
-result_div = fraction1 / fraction2
-print("Division:", result_div)
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        self.__name = name
+
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, price):
+        self.__price = price
+
+
+# p1 = Product('Apple', 123)
+#
+# print(p1.name)
+# p1.name = "New name"
+# print(p1.name)
+# print(p1.price)
+# p1.price = 10010
+# print(p1.price)
+
+
+# descriptor
+#############
+# class FieldUserName:
+#     def __get__(self, instance, owner):
+#         return instance.__dict__['name']
+#
+#     def __set__(self, instance, value):
+#         if not isinstance(value, str) or not len(value):
+#             raise Exception('Wrong name')
+#         instance.__dict__['name'] = value
+#
+#     def __delete__(self, instance):
+#         del instance.__dict__['name']
+#
+# class User:
+#     name = FieldUserName()
+#     def __init__(self, name):
+#         self.name = name
+#
+# # 'Alex', 25
+# u = User('Human')
+# print(u.name)
+# u.name = "Alex"
+# print(u.name)
+
+
+# metaclasses
+##############
+# class Person:
+#     pass
+#
+# p = Person()
+# print(p)
+# print(Person)
+#
+# print(type(p))
+# print(type(Person))
+#
+# name = input("Enater calss name ")
+# c = type(name, (), {"name":"Alex",
+#                     "info": lambda self: self.name})
+# c1 = c()
+# print(c1.info())
+
+
+# duck typing
+##############
+# class Device:
+#     def info(self):
+#         print("It's a device")
+#
+# class Human:
+#     def info(self):
+#         print("It's a human")
+#
+# def show_info(obj):
+#     try:
+#         obj.info()
+#     except:
+#         print("Unown method")
+#
+# d = Device()
+# h = Human()
+#
+# show_info(d)
+# show_info(h)
+
+# Додайте метод calculate_energy_usage(self, hours), який
+# обчислюватиме споживану енергію пристрою за певну кількість
+# годин (передану як аргумент) і збільшуватиме значення energy_consumed.
+# Створіть клас Household, який буде представляти домашнє
+# господарство. В цьому класі має бути можливість додавати пристрої
+# (Device) до списку пристроїв в господарстві та визначати загальну
+# спожиту енергію.
+
+# Створіть декілька пристроїв і покажіть їхню роботу, обчисливши
+# загальну спожиту енергію за деякий час.
+
+class PowerDescriptor:
+    def __set__(self, instance, value):
+        if value < 0:
+            raise ValueError("Power cannot be negative")
+        instance._power = value
+
+    def __get__(self, instance, owner):
+        return instance._power
+
+    def __delete__(self, instance):
+        del instance.__dict["power"]
+
+class EnergyConsumedDescriptor:
+    def __set__(self, instance, value):
+        if value < 0:
+            raise ValueError("Energy consumed cannot be negative")
+        instance._energy_consumed = value
+
+    def __get__(self, instance, owner):
+        return instance._energy_consumed
+
+    def __delete__(self, instance):
+        del instance.__dict["_energy_consumed"]
+
+class Device:
+    power = PowerDescriptor()
+    energy_consumed = EnergyConsumedDescriptor()
+    def __init__(self, name, power):
+        self.name = name
+        self.power = power
+        self.energy_consumed = 0
+
+    def calculate_energy_usage(self, hours):
+        energy_used = self.power * hours / 1000
+        self.energy_consumed += energy_used
+
+class Household:
+    def __init__(self):
+        self.devices = []
+
+    def add_device(self, device):
+        if isinstance(device, Device):
+            self.devices.append(device)
+        else:
+            raise ValueError("Only instances of the Device class can be added to the household.")
+
+    def calculate_total_energy_usage(self):
+        total_energy = sum(device.energy_consumed for device in self.devices)
+        return total_energy
+
+
+device1 = Device("Laptop", 50)
+device2 = Device("Refrigerator", 150)
+device3 = Device("TV", 75)
+
+household = Household()
+household.add_device(device1)
+household.add_device(device2)
+household.add_device(device3)
+
+t = 1
+
+device1.calculate_energy_usage(t)
+print(device1.name, "power", device1.power, "W")
+print(f"{device1.name} consumed {device1.energy_consumed}kW in {t} hours\n")
+device2.calculate_energy_usage(t)
+print(device2.name, "power", device2.power, "W")
+print(f"{device2.name} consumed {device2.energy_consumed}kW in {t} hours\n")
+device3.calculate_energy_usage(t)
+print(device3.name, "power", device3.power, "W")
+print(f"{device3.name} consumed {device3.energy_consumed}kW in {t} hours\n")
+
+total_energy_usage = household.calculate_total_energy_usage()
+print("Total energy consumption:", total_energy_usage, "kWh")
